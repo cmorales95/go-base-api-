@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+    aug7:
+        container_name: aug7
+        build:
+            context: .
+            dockerfile: Dockerfile
+        ports:
+            - '8080:8080'
+        env_file:
+            - .env
+        restart: on-failure
+        links:
+            - postgres
+
+    postgres:
+        restart: always
+        container_name: postgres_aug7
+        image: postgres:11.6
+        environment:
+            - POSTGRES_USER=admin
+            - POSTGRES_PASSWORD=admin
+            - POSTGRES_DB=aug7
+        ports:
+            - '5432:5432'
+        volumes:
+            - db:/var/lib/postgresql/data
+   
+volumes:
+    db:
+     
